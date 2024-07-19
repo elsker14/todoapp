@@ -10,7 +10,7 @@ import java.util.Date;
 
 // Final Project - Step #0 (copy entity class from ToDoList app developed during Spring Data JPA course)
 
-@Entity
+@Entity(name = "todos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

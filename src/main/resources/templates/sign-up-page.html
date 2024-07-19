@@ -1,4 +1,4 @@
-<!-- Final Project - Step #4 (sign up page) -->
+<!-- Final Project - Step #4 (sign-up page) -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -12,8 +12,18 @@
             <div class="card">
                 <div class="card-header">Sign Up</div>
                 <div class="card-body">
-                    <!-- Sign-up form will go here -->
-                    <p>Sign-up form placeholder</p>
+                    <!-- Final Project - Step #5 (customized sign-up form) -->
+                    <form th:action="@{/sign-up}" method="post">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Sign Up</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -22,3 +32,4 @@
 <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
