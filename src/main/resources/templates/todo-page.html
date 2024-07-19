@@ -1,6 +1,6 @@
 <!-- Final Project - Step #0 (copy template htmml from ToDoList app developed during Spring Data JPA course) -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>To-Do List</title>
     <link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
@@ -14,26 +14,41 @@
             <button class="btn btn-outline-secondary" type="submit">Logout</button>
         </form>
     </div>
+
     <form action="#" method="post" th:action="@{/todo-list/add}">
         <div class="input-group mb-3">
             <input class="form-control" name="task" placeholder="Enter task" required type="text">
             <input class="form-control" name="deadline" placeholder="Enter deadline (yyyy-MM-dd)" required type="date">
-            <button class="btn btn-primary" type="submit">Add</button>
+
+            <!-- Final Project - Step #6 - only admin and user are able to add -->
+            <sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')">
+                <button class="btn btn-primary" type="submit">Add</button>
+            </sec:authorize>
         </div>
     </form>
+
     <h2 class="mt-4">Tasks:</h2>
     <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center" th:each="todo : ${todos}">
             <form class="d-flex flex-grow-1 align-items-center" method="post" th:action="@{/todo-list/update}">
                 <input name="id" th:value="${todo.id}" type="hidden">
                 <input class="form-control me-2" name="task" required th:value="${todo.task}" type="text">
-                <input class="form-control me-2" name="deadline"
-                       required th:value="${#dates.format(todo.deadline, 'yyyy-MM-dd')}" type="date">
-                <button class="btn btn-success btn-sm me-2" type="submit">Update</button>
+                <input class="form-control me-2" name="deadline" required
+                       th:value="${#dates.format(todo.deadline, 'yyyy-MM-dd')}" type="date">
+
+                <!-- Final Project - Step #6 - only admin is able to update -->
+                <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')">
+                    <button class="btn btn-success btn-sm me-2" type="submit">Update</button>
+                </sec:authorize>
             </form>
+
             <form method="post" th:action="@{/todo-list/delete}">
                 <input name="id" th:value="${todo.id}" type="hidden">
-                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+
+                <!-- Final Project - Step #6 - only admin is able to delete -->
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                </sec:authorize>
             </form>
         </li>
     </ul>

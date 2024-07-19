@@ -100,7 +100,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeHttpRequestsIt -> authorizeHttpRequestsIt
                                 // Final Project - Step #4 - added /sign-up
-                                .requestMatchers("/", "/login", "/sign-up", "/h2-console/**", "/webjars/**").permitAll()  // Publicly accessible
+                                .requestMatchers("/", "/login", "/sign-up", "/webjars/**").permitAll()  // Publicly accessible
+                                .requestMatchers("/h2-console/**").hasRole("ADMIN")
+                                .requestMatchers("/todo-list/add").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/todo-list/update").hasRole("ADMIN")
+                                .requestMatchers("/todo-list/delete").hasRole("ADMIN")
                                 .anyRequest().authenticated()   // All other requests require authentication
                 )
                 .formLogin(
